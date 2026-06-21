@@ -1,0 +1,45 @@
+Collapsed Backbone Config - Day 2 Sample
+accentureBSP:
+20 agents
+5 bits
+/27
+"ipasok32isa4th"
+10.0.0.32/27
+10.0.0.33
+10.0.0.63
+10.0.0.64/?
+@C1:
+config t
+vlan 4
+name accentureBSP.com
+exit
+Interface vlan 4
+ desc accentureBSP.com
+ no shut
+ ip add 10.0.0.33 255.255.255.224
+exit
+ip dhcp excluded-add 10.0.0.33 10.0.0.35
+ip dhcp pool accentureBSP
+ network 10.0.0.32 255.255.255.224
+ domain-name accentureBSP.com
+ dns-server 8.8.8.8
+ default-router 10.0.0.33
+end
+
+@A2
+config t
+int e1/0
+switchport mode access
+switchport access vlan 4
+end
+sh vlan brief
+
+@P2:
+CONFIG T
+INT E1/0
+shut 
+no ip address dhcp
+ip address dhcp
+no shut
+do bp
+end
